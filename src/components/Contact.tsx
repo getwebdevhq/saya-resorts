@@ -1,125 +1,288 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Phone, Mail, MessageCircle } from "lucide-react";
-import { property, waLink } from "@/lib/site";
+import {
+  MessageCircle,
+  Phone,
+  Mail,
+  ArrowUpRight,
+  ShieldCheck,
+  CheckCircle2,
+  Calendar,
+  Users,
+} from "lucide-react";
+import { property, rooms, waLink } from "@/lib/site";
 
 export default function Contact() {
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [category, setCategory] = useState("forest-chalet");
   const [dates, setDates] = useState("");
-  const [guests, setGuests] = useState("");
-  const [message, setMessage] = useState("");
+  const [guests, setGuests] = useState("2 Guests");
+  const [notes, setNotes] = useState("");
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const lines = [
-      `Hi! I'd like to enquire about a stay at SAYA Resorts.`,
-      name && `Name: ${name}`,
-      dates && `Dates: ${dates}`,
-      guests && `Guests: ${guests}`,
-      message && `Message: ${message}`,
+    const chosenRoom = rooms.find((r) => r.slug === category);
+    const roomTitle = chosenRoom ? `${chosenRoom.name} (${chosenRoom.categoryTag})` : category;
+
+    const messageLines = [
+      `🌿 *Stay Inquiry — Saya Forest Resort, Alibaug*`,
+      name && `• Guest Name: ${name}`,
+      phone && `• Contact: ${phone}`,
+      `• Desired Room: ${roomTitle}`,
+      dates && `• Dates: ${dates}`,
+      guests && `• Guests: ${guests}`,
+      notes && `• Special Requests: ${notes}`,
+      ``,
+      `Please confirm live availability and current tariff.`,
     ].filter(Boolean);
-    window.open(waLink(lines.join("\n")), "_blank", "noopener,noreferrer");
+
+    window.open(waLink(messageLines.join("\n")), "_blank", "noopener,noreferrer");
   }
 
   return (
-    <section id="contact" className="border-t border-line bg-cream-soft/60">
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
-        <div className="grid grid-cols-1 gap-14 md:grid-cols-5 md:gap-16">
-          <div className="md:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-              Book a Stay
-            </p>
-            <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
-              Let&apos;s plan your <span className="italic-serif">escape</span>
-            </h2>
-            <p className="mt-5 max-w-sm text-ink-soft">
-              Send us your dates and we&apos;ll confirm availability and the
-              best rate directly — no booking fees, no middlemen.
-            </p>
+    <section id="contact" className="relative py-28 md:py-36 lg:py-40 bg-forest-bg border-t border-forest-border/70 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Direct Concierge & Information */}
+          <div className="lg:col-span-5 space-y-8">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-px w-8 bg-forest-gold" />
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-forest-moss">
+                  Direct Reservations
+                </p>
+              </div>
+              <h2 className="font-display text-4xl sm:text-6xl font-light text-forest-dark leading-[1.08]">
+                Begin your journey <br />
+                <span className="italic-serif text-forest-moss font-normal">
+                  into the trees
+                </span>
+              </h2>
+              <p className="mt-5 text-sm sm:text-base text-forest-muted leading-relaxed font-light">
+                Direct bookings enjoy our guaranteed best tariff, complimentary breakfast, flexible cancellation assistance, and personalized chalet concierge support.
+              </p>
+            </div>
 
-            <div className="mt-8 flex flex-col gap-4">
+            {/* Direct Connect Options */}
+            <div className="space-y-4 pt-2">
               <a
-                href={waLink("Hi! I'd like to enquire about a stay at SAYA Resorts.")}
+                href={waLink("Hi Saya Forest Resort! I would like to inquire about room availability.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm font-medium hover:text-amber-deep"
+                className="group flex items-center justify-between rounded-2xl border border-forest-border bg-white p-5 transition-all hover:border-forest-moss hover:shadow-md"
               >
-                <MessageCircle size={18} className="text-amber" />
-                Chat on WhatsApp
+                <div className="flex items-center gap-4">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-card text-forest-moss">
+                    <MessageCircle size={20} />
+                  </span>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-forest-muted">
+                      WhatsApp Concierge
+                    </p>
+                    <p className="text-sm font-medium text-forest-dark">
+                      Instant Availability &amp; Photos
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight
+                  size={18}
+                  className="text-forest-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
+
               <a
                 href={`tel:${property.phone.replace(/\s+/g, "")}`}
-                className="flex items-center gap-3 text-sm font-medium hover:text-amber-deep"
+                className="group flex items-center justify-between rounded-2xl border border-forest-border bg-white p-5 transition-all hover:border-forest-moss hover:shadow-md"
               >
-                <Phone size={18} className="text-amber" />
-                {property.phone}
+                <div className="flex items-center gap-4">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-card text-forest-moss">
+                    <Phone size={20} />
+                  </span>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-forest-muted">
+                      Direct Front Desk
+                    </p>
+                    <p className="text-sm font-medium text-forest-dark">
+                      {property.phone}
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight
+                  size={18}
+                  className="text-forest-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
+
               <a
                 href={`mailto:${property.email}`}
-                className="flex items-center gap-3 text-sm font-medium hover:text-amber-deep"
+                className="group flex items-center justify-between rounded-2xl border border-forest-border bg-white p-5 transition-all hover:border-forest-moss hover:shadow-md"
               >
-                <Mail size={18} className="text-amber" />
-                {property.email}
+                <div className="flex items-center gap-4">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-card text-forest-moss">
+                    <Mail size={20} />
+                  </span>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-forest-muted">
+                      Email Inquiries
+                    </p>
+                    <p className="text-sm font-medium text-forest-dark">
+                      {property.email}
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight
+                  size={18}
+                  className="text-forest-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
+            </div>
+
+            {/* Direct Booking Guarantee */}
+            <div className="flex items-center gap-3 text-xs text-forest-muted pt-2">
+              <ShieldCheck size={16} className="text-forest-gold shrink-0" />
+              <span>Zero booking commissions • Direct confirmation with property management</span>
             </div>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-[1.75rem] border border-line bg-cream p-6 sm:p-8 md:col-span-3"
-          >
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <label className="flex flex-col gap-2 text-sm font-medium">
-                Name
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  type="text"
-                  placeholder="Your name"
-                  className="rounded-xl border border-line bg-cream px-4 py-3 text-sm outline-none focus:border-amber"
-                />
-              </label>
-              <label className="flex flex-col gap-2 text-sm font-medium">
-                Guests
-                <input
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  type="text"
-                  placeholder="e.g. 2 adults"
-                  className="rounded-xl border border-line bg-cream px-4 py-3 text-sm outline-none focus:border-amber"
-                />
-              </label>
-              <label className="flex flex-col gap-2 text-sm font-medium sm:col-span-2">
-                Preferred dates
-                <input
-                  value={dates}
-                  onChange={(e) => setDates(e.target.value)}
-                  type="text"
-                  placeholder="e.g. 12–14 Dec"
-                  className="rounded-xl border border-line bg-cream px-4 py-3 text-sm outline-none focus:border-amber"
-                />
-              </label>
-              <label className="flex flex-col gap-2 text-sm font-medium sm:col-span-2">
-                Message
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={3}
-                  placeholder="Anything else we should know?"
-                  className="resize-none rounded-xl border border-line bg-cream px-4 py-3 text-sm outline-none focus:border-amber"
-                />
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-cream transition-colors hover:bg-amber-deep sm:w-auto"
+          {/* Right Column: Editorial Reservation Form */}
+          <div className="lg:col-span-7">
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-[2.25rem] border border-forest-border bg-white p-8 sm:p-12 shadow-xl"
             >
-              <MessageCircle size={16} />
-              Send via WhatsApp
-            </button>
-          </form>
+              <div className="pb-6 border-b border-forest-border flex items-center justify-between">
+                <div>
+                  <h3 className="font-display text-2xl sm:text-3xl font-light text-forest-dark">
+                    Reserve Your Stay
+                  </h3>
+                  <p className="text-xs text-forest-muted font-light mt-1">
+                    Fill out your preferences and receive an instant quote on WhatsApp
+                  </p>
+                </div>
+                <span className="hidden sm:inline-block font-sans text-[10px] uppercase tracking-widest text-forest-gold px-3 py-1 rounded-full border border-forest-gold/30 bg-forest-gold-soft/40">
+                  Priority Response
+                </span>
+              </div>
+
+              <div className="mt-8 space-y-6">
+                {/* Name & Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Ananya Sharma"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm text-forest-dark placeholder:text-forest-light outline-none focus:border-forest-moss focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark">
+                      Contact / WhatsApp Number
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +91 98200 12345"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm text-forest-dark placeholder:text-forest-light outline-none focus:border-forest-moss focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* Room Category Selection */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark flex items-center justify-between">
+                    <span>Desired Accommodation Category</span>
+                    <span className="text-[10px] text-forest-gold font-normal lowercase">5 categories available</span>
+                  </label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm font-medium text-forest-dark outline-none focus:border-forest-moss focus:bg-white transition-all cursor-pointer"
+                  >
+                    <option value="forest-chalet">
+                      🌲 Forest Chalet — Crown Jewel (Highest Category)
+                    </option>
+                    <option value="villa-4bhk">
+                      🏡 Villa 4BHK — Grand Private Forest Estate
+                    </option>
+                    <option value="two-bed-suite">
+                      🛋️ Two Bed Suite — 2 BHK Family Forest Haven
+                    </option>
+                    <option value="one-bed-suite">
+                      🌿 One Bed Suite — 1 BHK Boutique Forest Suite
+                    </option>
+                    <option value="deluxe-room">
+                      🛏️ Deluxe Room — Serene Forest View Deluxe
+                    </option>
+                  </select>
+                </div>
+
+                {/* Dates & Guests */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark">
+                      Preferred Dates
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 18th to 20th November"
+                      value={dates}
+                      onChange={(e) => setDates(e.target.value)}
+                      className="w-full rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm text-forest-dark placeholder:text-forest-light outline-none focus:border-forest-moss focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark">
+                      Number of Guests
+                    </label>
+                    <select
+                      value={guests}
+                      onChange={(e) => setGuests(e.target.value)}
+                      className="w-full rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm font-medium text-forest-dark outline-none focus:border-forest-moss focus:bg-white transition-all cursor-pointer"
+                    >
+                      <option value="1 Guest">1 Guest (Solo)</option>
+                      <option value="2 Guests">2 Guests (Couple)</option>
+                      <option value="3 Guests">3 Guests</option>
+                      <option value="4-5 Guests">4–5 Guests (Family)</option>
+                      <option value="6-10 Guests">6–10 Guests (Villa Party)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Special Requests */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] uppercase font-semibold tracking-wider text-forest-dark">
+                    Special Requests or Questions
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="e.g. Mandwa ferry transfer, anniversary setup, private forest dinner..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="w-full resize-none rounded-xl border border-forest-border bg-forest-bg px-4 py-3 text-sm text-forest-dark placeholder:text-forest-light outline-none focus:border-forest-moss focus:bg-white transition-all"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 rounded-full bg-forest-green py-4 text-xs font-semibold uppercase tracking-[0.2em] text-forest-bg shadow-md transition-all duration-300 hover:bg-forest-dark hover:shadow-lg cursor-pointer"
+                >
+                  <MessageCircle size={16} />
+                  <span>Send Inquiry via WhatsApp</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>

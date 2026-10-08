@@ -1,43 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  --cream: #f6f1e9;
-  --cream-soft: #efe7d8;
-  --ink: #201c15;
-  --ink-soft: #4a4437;
-  --amber: #b3602a;
-  --amber-deep: #8a4620;
-  --line: #ddd2ba;
+  --forest-bg: #faf9f5;
+  --forest-surface: #ffffff;
+  --forest-card: #f5f3ec;
+  --forest-elevated: #efece3;
+  --forest-green: #1a3325;
+  --forest-dark: #0e1d15;
+  --forest-moss: #2b4d3a;
+  --forest-sage: #5a7364;
+  --forest-border: #e6e0d4;
+  --forest-border-light: #f0ede6;
+  --forest-gold: #c29d59;
+  --forest-gold-deep: #a5803d;
+  --forest-gold-soft: #f4ede1;
+  --forest-text: #131b16;
+  --forest-muted: #57645c;
+  --forest-light: #8a968f;
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-cream-soft: var(--cream-soft);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-amber: var(--amber);
-  --color-amber-deep: var(--amber-deep);
-  --color-line: var(--line);
-  --font-sans: var(--font-sans);
+  --color-forest-bg: var(--forest-bg);
+  --color-forest-surface: var(--forest-surface);
+  --color-forest-card: var(--forest-card);
+  --color-forest-elevated: var(--forest-elevated);
+  --color-forest-green: var(--forest-green);
+  --color-forest-dark: var(--forest-dark);
+  --color-forest-moss: var(--forest-moss);
+  --color-forest-sage: var(--forest-sage);
+  --color-forest-border: var(--forest-border);
+  --color-forest-border-light: var(--forest-border-light);
+  --color-forest-gold: var(--forest-gold);
+  --color-forest-gold-deep: var(--forest-gold-deep);
+  --color-forest-gold-soft: var(--forest-gold-soft);
+  --color-forest-text: var(--forest-text);
+  --color-forest-muted: var(--forest-muted);
+  --color-forest-light: var(--forest-light);
+
   --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
 }
 
 body {
-  background: var(--cream);
-  color: var(--ink);
+  background-color: var(--forest-bg);
+  color: var(--forest-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
+/* Editorial Typography */
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
 }
 
 .italic-serif {
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 400;
 }
 
-::selection {
-  background: var(--amber);
-  color: var(--cream);
+/* Subtle luxury scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--forest-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #d6cfbf;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8b09f;
+}
+
+/* Glassmorphism effects */
+.glass-nav {
+  background: rgba(250, 249, 245, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-badge {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(14, 29, 21, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
