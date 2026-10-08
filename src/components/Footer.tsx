@@ -1,75 +1,49 @@
+import { ArrowUpRight } from "lucide-react";
 import { nav, property, rooms, waLink } from "@/lib/site";
-import { ArrowUpRight, Trees } from "lucide-react";
-
-function InstagramIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
 
 export default function Footer() {
   return (
-    <footer className="relative bg-forest-dark text-white pt-24 pb-12 border-t border-white/10 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        {/* Top Editorial Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
-          {/* Brand Col */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="font-display text-3xl sm:text-4xl font-normal text-white">
-                SAYA
+    <footer className="on-dark relative overflow-hidden bg-forest-dark pb-10 pt-24 text-white">
+      <div className="container-page">
+        <div className="grid grid-cols-1 gap-12 pb-16 md:grid-cols-2 lg:grid-cols-12">
+          {/* Brand */}
+          <div className="space-y-5 lg:col-span-5">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-4xl font-semibold leading-none tracking-[-0.05em] text-white">
+                Saya
               </span>
-              <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-forest-gold px-2.5 py-0.5 rounded-full border border-forest-gold/30">
+              <span className="text-[0.625rem] font-semibold uppercase leading-none tracking-[0.22em] text-forest-gold">
                 Forest Resort
               </span>
             </div>
-            <p className="text-xs uppercase tracking-[0.24em] text-white/50">
-              Alibaug, Maharashtra • {property.formerName}
+            <p className="label">
+              Alibaug, Maharashtra · {property.formerName}
             </p>
-            <p className="max-w-sm text-sm text-white/70 leading-relaxed font-light pt-2">
-              {property.taglineLong}
-            </p>
-            <div className="pt-2">
-              <a
-                href={waLink("Hi! I would like to reserve a stay at Saya Forest Resort Alibaug.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-forest-gold px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-forest-dark transition-all hover:bg-forest-gold-soft"
-              >
-                <span>Reserve on WhatsApp</span>
-                <ArrowUpRight size={13} />
-              </a>
-            </div>
+            <p className="body-sm max-w-sm">{property.taglineLong}</p>
+            <a
+              href={waLink("Hi! I would like to reserve a stay at Saya Forest Resort Alibaug.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-gold btn-sm mt-2"
+            >
+              <span>Reserve on WhatsApp</span>
+              <ArrowUpRight size={14} className="arrow-up-right" />
+            </a>
           </div>
 
-          {/* Room Categories Col */}
-          <div className="lg:col-span-4 space-y-3">
-            <p className="text-xs uppercase tracking-[0.22em] text-forest-gold font-semibold">
-              The 5 Accommodations
-            </p>
-            <ul className="space-y-2 text-sm text-white/75 font-light">
+          {/* Stays */}
+          <div className="lg:col-span-4">
+            <p className="eyebrow">The {rooms.length} stays</p>
+            <ul className="mt-5 space-y-1 text-sm">
               {rooms.map((r) => (
                 <li key={r.slug}>
                   <a
                     href={`#room-${r.slug}`}
-                    className="hover:text-forest-gold transition-colors flex items-center justify-between group py-1"
+                    className="group flex items-center justify-between gap-4 py-1.5 text-white/80 transition-colors hover:text-forest-gold"
                   >
                     <span>{r.name}</span>
-                    <span className="text-[11px] text-white/40 group-hover:text-forest-gold">
-                      {r.slug === "forest-chalet" ? "Highest Category" : r.categoryTag}
+                    <span className="text-xs text-white/40 transition-colors group-hover:text-forest-gold">
+                      {r.isCrownJewel ? "Highest category" : r.categoryTag}
                     </span>
                   </a>
                 </li>
@@ -77,42 +51,38 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Quick Nav & Contact */}
-          <div className="lg:col-span-3 space-y-3">
-            <p className="text-xs uppercase tracking-[0.22em] text-forest-gold font-semibold">
-              Sanctuary
-            </p>
-            <ul className="space-y-2 text-sm text-white/75 font-light">
+          {/* Sanctuary links + contact */}
+          <div className="lg:col-span-3">
+            <p className="eyebrow">Sanctuary</p>
+            <ul className="mt-5 space-y-1 text-sm">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="hover:text-forest-gold transition-colors">
+                  <a
+                    href={item.href}
+                    className="block py-1.5 text-white/80 transition-colors hover:text-forest-gold"
+                  >
                     {item.label}
                   </a>
                 </li>
               ))}
             </ul>
-
-            <div className="pt-4 space-y-1 text-xs text-white/60">
+            <div className="mt-6 space-y-1 text-sm text-white/60">
               <p>{property.phone}</p>
               <p>{property.email}</p>
             </div>
           </div>
         </div>
 
-        {/* Big Editorial Watermark */}
-        <div className="py-12 text-center select-none overflow-hidden">
-          <p
-            className="font-display font-light text-white/[0.07] tracking-[0.18em] uppercase transition-all"
-            style={{ fontSize: "clamp(3rem, 11vw, 8.5rem)", lineHeight: 0.9 }}
-          >
-            SAYA RESORT
-          </p>
+        {/* Wordmark echo of the hero */}
+        <div className="rule overflow-hidden border-t pt-10 select-none" aria-hidden="true">
+          <span className="wordmark wordmark-footer">Saya</span>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
-          <p>© {new Date().getFullYear()} {property.name}, Alibaug. All rights reserved.</p>
-          <p className="text-center sm:text-right">{property.formerName} • Redesigned for Tranquility</p>
+        <div className="rule mt-10 flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs text-white/50 sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} {property.name}, Alibaug. All rights reserved.
+          </p>
+          <p className="text-center sm:text-right">{property.formerName}</p>
         </div>
       </div>
     </footer>

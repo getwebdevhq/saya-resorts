@@ -2,17 +2,20 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const display = Cormorant_Garamond({
-  variable: "--font-display",
+// Sans carries UI and headlines (variable font: every weight from one file).
+const sans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const sans = Plus_Jakarta_Sans({
-  variable: "--font-sans",
+// Serif is reserved for the italic accent word inside headlines.
+const serif = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  style: ["italic"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -38,9 +41,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} scroll-smooth antialiased`}
+      className={`${sans.variable} ${serif.variable} scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-forest-bg text-forest-text font-sans selection:bg-forest-green selection:text-forest-bg">
+      <body className="min-h-full flex flex-col bg-forest-bg font-sans text-forest-text selection:bg-forest-green selection:text-forest-bg">
         {children}
       </body>
     </html>

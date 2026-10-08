@@ -3,82 +3,88 @@
 import { useState } from "react";
 import Image from "next/image";
 import { galleryImages } from "@/lib/site";
+import SectionHeader from "./SectionHeader";
+
+const tags = ["All", ...Array.from(new Set(galleryImages.map((img) => img.tag)))];
+
+// Six tiles fill a 4-column grid exactly (2x2, 2x1, 1x1, 1x1, 2x1, 2x1) with no
+// gaps. Only used for the unfiltered view; filtered results use a plain grid.
+const bentoSpans = [
+  "sm:col-span-2 lg:row-span-2",
+  "sm:col-span-2",
+  "",
+  "",
+  "sm:col-span-2",
+  "sm:col-span-2",
+];
 
 export default function Gallery() {
   const [filter, setFilter] = useState("All");
 
-  const tags = ["All", "Chalet", "Villa", "Suites", "Pool", "Dining"];
-
-  const filtered =
-    filter === "All"
-      ? galleryImages
-      : galleryImages.filter((img) => img.tag === filter);
+  const showAll = filter === "All";
+  const filtered = showAll ? galleryImages : galleryImages.filter((img) => img.tag === filter);
 
   return (
-    <section id="gallery" className="relative py-28 md:py-36 lg:py-40 bg-forest-bg border-t border-forest-border/70 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-12 border-b border-forest-border/80">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="h-px w-8 bg-forest-gold" />
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-forest-moss">
-                Visual Impressions
-              </p>
+    <section id="gallery" className="section bg-forest-bg">
+      <div className="container-page">
+        <SectionHeader
+          eyebrow="Visual impressions"
+          title={
+            <>
+              Vistas through <em className="italic-serif">the living canopy</em>
+            </>
+          }
+          aside={
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Filter photos">
+              {tags.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  className="chip"
+                  aria-pressed={filter === t}
+                  onClick={() => setFilter(t)}
+                >
+                  {t}
+                </button>
+              ))}
             </div>
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-light text-forest-dark leading-[1.05]">
-              Vistas through <br className="hidden sm:inline" />
-              <span className="italic-serif text-forest-moss font-normal">
-                the living canopy
-              </span>
-            </h2>
-          </div>
+          }
+        />
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2">
-            {tags.map((t) => (
-              <button
-                key={t}
-                onClick={() => setFilter(t)}
-                className={`rounded-full px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] transition-all cursor-pointer ${
-                  filter === t
-                    ? "bg-forest-dark text-white"
-                    : "bg-white border border-forest-border text-forest-muted hover:border-forest-dark hover:text-forest-dark"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Gallery Grid */}
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          className={`mt-12 grid auto-rows-[15rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[17rem] ${
+            showAll ? "lg:grid-cols-4 lg:auto-rows-[15rem]" : "lg:grid-cols-2 lg:auto-rows-[22rem]"
+          }`}
+        >
           {filtered.map((img, i) => (
-            <div
+            <figure
               key={img.src}
-              className={`group relative overflow-hidden rounded-[1.75rem] border border-forest-border/80 bg-forest-card shadow-sm transition-all duration-500 hover:shadow-xl ${
-                i === 0 || i === 3 ? "sm:col-span-2 lg:col-span-2 aspect-[16/10]" : "aspect-[4/3] lg:aspect-[3/4]"
+              className={`group relative overflow-hidden rounded-card border border-forest-border bg-forest-card shadow-soft transition-shadow duration-500 hover:shadow-lift ${
+                showAll ? bentoSpans[i] : ""
               }`}
             >
               <Image
                 src={img.src}
                 alt={img.caption}
                 fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                sizes={
+                  showAll
+                    ? "(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
+                    : "(min-width: 1024px) 50vw, 100vw"
+                }
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              <div className="absolute bottom-4 left-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 flex items-center justify-between text-white">
-                <p className="text-xs font-light text-white/90 line-clamp-1">
-                  {img.caption}
-                </p>
-                <span className="glass-dark px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider text-forest-gold-soft">
-                  {img.tag}
-                </span>
-              </div>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/75 via-transparent to-transparent transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100" />
+
+              <span className="tag glass-dark absolute left-4 top-4 text-forest-gold-soft">
+                {img.tag}
+              </span>
+
+              {/* Always visible on touch / small screens, revealed on hover on desktop */}
+              <figcaption className="absolute inset-x-4 bottom-4 text-sm text-white transition-all duration-300 lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                {img.caption}
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>

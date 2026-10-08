@@ -1,150 +1,148 @@
 import Image from "next/image";
-import { ArrowUpRight, Compass, Sparkles, Trees, Eye } from "lucide-react";
-import { property, quickStats, waLink } from "@/lib/site";
+import { ArrowUpRight, Eye } from "lucide-react";
+import { photos, quickStats, waLink } from "@/lib/site";
+import SectionHeader from "./SectionHeader";
+
+const highlights = [
+  {
+    title: "Forest view from every room",
+    body: "Gone are enclosed box walls. Expansive picture windows and deep timber balconies in every room ensure morning sun dapples through swaying leaves directly into your living space.",
+  },
+  {
+    title: "Five curated living categories",
+    body: "From couples seeking restorative silence in our Deluxe Rooms, to multi-family celebrations in the 4BHK Villa, and the ultimate forest immersion in the standalone Forest Chalet.",
+  },
+  {
+    title: "15 minutes from the Mumbai speedboats",
+    body: "Step off the Mandwa ferry from Gateway of India into tranquil forest shadows. Far enough to leave the city’s noise behind; close enough for an effortless weekend pause.",
+  },
+];
+
+/** "15 min" -> ["15", "min"], "100%" -> ["100", "%"], "4.9/5" -> ["4.9", "/5"] */
+function splitStat(value: string): [string, string] {
+  const match = value.match(/^([\d.,]+)\s*(.*)$/);
+  return match ? [match[1], match[2]] : [value, ""];
+}
 
 export default function Story() {
   return (
-    <section id="story" className="relative py-28 md:py-36 lg:py-40 bg-forest-bg border-t border-forest-border/70 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        {/* Subtle eyebrow badge */}
-        <div className="flex items-center gap-3 mb-6">
-          <span className="h-px w-8 bg-forest-gold" />
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-forest-moss">
-            The Transformation Story
-          </span>
-        </div>
-
-        {/* Editorial Heading with large typography and whitespace */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div className="lg:col-span-7">
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-light text-forest-dark leading-[1.05]">
+    <section id="story" className="section bg-forest-bg">
+      <div className="container-page">
+        <SectionHeader
+          eyebrow="The transformation story"
+          title={
+            <>
               Reborn from the roots of{" "}
-              <span className="italic-serif text-forest-moss font-normal">
-                Giriraj Garden Resort
-              </span>
-            </h2>
-          </div>
-
-          <div className="lg:col-span-5 lg:pt-4">
-            <p className="text-forest-muted text-base sm:text-lg leading-relaxed font-light">
-              Acquired and thoughtfully reimagined by its new owners, the historic Giriraj Garden Resort
-              has been completely transformed into <strong>Saya Forest Resort, Alibaug</strong>.
-              We stepped away from generic landscaping to embrace wild botanical tranquility.
-            </p>
-            <div className="mt-6 flex items-center gap-3 text-sm font-medium text-forest-dark">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-forest-card text-forest-moss border border-forest-border">
-                <Eye size={15} />
-              </span>
-              <span>Every single room frames uninterrupted forest vistas.</span>
+              <em className="italic-serif">Giriraj Garden Resort</em>
+            </>
+          }
+          aside={
+            <div className="max-w-md space-y-6">
+              <p className="lead">
+                Acquired and thoughtfully reimagined by its new owners, the historic Giriraj
+                Garden Resort has been transformed into{" "}
+                <strong className="font-semibold text-forest-dark">
+                  Saya Forest Resort, Alibaug
+                </strong>
+                . We stepped away from generic landscaping to embrace wild botanical tranquility.
+              </p>
+              <p className="flex items-center gap-3 text-sm font-medium text-forest-dark">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-forest-border bg-forest-card text-forest-moss">
+                  <Eye size={16} aria-hidden="true" />
+                </span>
+                Every single room frames uninterrupted forest vistas.
+              </p>
             </div>
-          </div>
-        </div>
+          }
+        />
 
-        {/* Two-Column Editorial Image & Text Feature */}
-        <div className="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Main Visual Frame */}
-          <div className="relative lg:col-span-7">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem] shadow-xl border border-forest-border">
+        {/* Image + editorial highlights */}
+        <div className="mt-16 grid grid-cols-1 items-center gap-12 md:mt-24 lg:grid-cols-12 lg:gap-16">
+          <div className="reveal relative lg:col-span-7">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-frame shadow-lift">
               <Image
-                src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600&auto=format&fit=crop"
-                alt="Saya Forest Resort Alibaug tranquil forest trees and pathways"
+                src={photos.forestPath}
+                alt="Sunlight filtering through misty forest trees along a path at Saya Forest Resort"
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"
-                className="object-cover transition-transform duration-700 hover:scale-103"
+                className="object-cover transition-transform duration-700 hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/70 via-transparent to-transparent" />
-              
-              {/* Badge overlay */}
-              <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 flex items-center justify-between text-white">
+
+              <div className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-4 text-white md:inset-x-8 md:bottom-8">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-forest-gold-soft">
-                    Sanctuary Concept
-                  </p>
-                  <p className="font-display text-xl sm:text-2xl font-light">
-                    Where Nature Sets the Rhythm
+                  <p className="label text-forest-gold-soft">Sanctuary concept</p>
+                  <p className="mt-1.5 font-display text-xl font-medium tracking-[-0.025em] sm:text-2xl">
+                    Where nature sets the rhythm
                   </p>
                 </div>
-                <span className="glass-dark rounded-full px-3.5 py-1.5 text-xs text-forest-gold-soft">
+                <span className="tag glass-dark hidden text-forest-gold-soft sm:inline-flex">
                   Alibaug, Maharashtra
                 </span>
               </div>
             </div>
 
-            {/* Overlapping Decorative Card */}
-            <div className="hidden sm:block absolute -bottom-8 -right-8 max-w-xs rounded-2xl border border-forest-border bg-white p-6 shadow-xl backdrop-blur-md">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest-gold">
-                The Crown Jewel
+            {/* Overlapping note */}
+            <div className="card absolute -bottom-8 -right-6 hidden max-w-xs p-6 shadow-lift sm:block xl:-right-8">
+              <p className="eyebrow">The crown jewel</p>
+              <p className="mt-3 text-sm font-medium leading-snug text-forest-dark">
+                Private elevated Forest Chalets suspended in the trees — Alibaug’s highest category
+                room.
               </p>
-              <p className="mt-2 text-sm text-forest-dark font-medium leading-snug">
-                Private elevated Forest Chalets suspended in the trees — Alibaug’s highest category room.
-              </p>
-              <a
-                href="#chalets"
-                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-forest-moss hover:underline"
-              >
-                Discover Chalets <ArrowUpRight size={13} />
+              <a href="#chalets" className="link-arrow mt-4">
+                Discover the chalets <ArrowUpRight size={14} />
               </a>
             </div>
           </div>
 
-          {/* Editorial Highlights */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="border-l-2 border-forest-gold/60 pl-6 space-y-2">
-              <h3 className="font-display text-2xl md:text-3xl text-forest-dark font-normal">
-                Forest View from Every Room
-              </h3>
-              <p className="text-sm text-forest-muted leading-relaxed font-light">
-                Gone are enclosed box walls. Expansive picture windows and deep timber balconies
-                in every room ensure morning sun dapples through swaying leaves directly into your living space.
-              </p>
-            </div>
+          <div className="lg:col-span-5">
+            <ol className="space-y-9">
+              {highlights.map((item, i) => (
+                <li key={item.title} className="reveal grid grid-cols-[2.5rem_1fr] gap-x-4">
+                  <span className="pt-1 font-display text-sm font-medium tabular-nums text-forest-gold-ink">
+                    0{i + 1}
+                  </span>
+                  <div className="space-y-2">
+                    <h3 className="h-card">{item.title}</h3>
+                    <p className="body-sm">{item.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
 
-            <div className="border-l-2 border-forest-border pl-6 space-y-2">
-              <h3 className="font-display text-2xl md:text-3xl text-forest-dark font-normal">
-                Five Curated Living Categories
-              </h3>
-              <p className="text-sm text-forest-muted leading-relaxed font-light">
-                From cozy couples looking for restorative silence in our Deluxe Rooms, to sprawling multi-family celebrations in our 4BHK Villa, and the ultimate forest immersion in the standalone Forest Chalet.
-              </p>
-            </div>
-
-            <div className="border-l-2 border-forest-border pl-6 space-y-2">
-              <h3 className="font-display text-2xl md:text-3xl text-forest-dark font-normal">
-                15 Minutes from Mumbai Speedboats
-              </h3>
-              <p className="text-sm text-forest-muted leading-relaxed font-light">
-                Seamlessly step off the Mandwa ferry from Gateway of India into tranquil forest shadows.
-                Far enough to leave Mumbai’s noise behind; close enough for an effortless weekend pause.
-              </p>
-            </div>
-
-            <div className="pt-4">
-              <a
-                href={waLink("Hi! I would like to learn more about the revamp of Saya Forest Resort and enquire for an upcoming stay.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-forest-dark px-7 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-forest-dark transition-all duration-300 hover:bg-forest-dark hover:text-white"
-              >
-                <span>Plan Your Getaway</span>
-                <ArrowUpRight size={14} />
-              </a>
-            </div>
+            <a
+              href={waLink(
+                "Hi! I would like to learn more about the revamp of Saya Forest Resort and enquire for an upcoming stay.",
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline mt-10"
+            >
+              <span>Plan your getaway</span>
+              <ArrowUpRight size={14} className="arrow-up-right" />
+            </a>
           </div>
         </div>
 
-        {/* Quick Numerical Stats Bar */}
-        <div className="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-forest-border/80 pt-12">
-          {quickStats.map((stat) => (
-            <div key={stat.label} className="text-center sm:text-left">
-              <p className="font-display text-4xl sm:text-5xl md:text-6xl font-light text-forest-dark">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-xs sm:text-sm uppercase tracking-wider text-forest-muted font-medium">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        {/* Numbers */}
+        <dl className="mt-24 grid grid-cols-2 gap-y-10 md:mt-32 md:grid-cols-4">
+          {quickStats.map((stat, i) => {
+            const [num, unit] = splitStat(stat.value);
+            return (
+              // Term first in the DOM, number shown above it
+              <div
+                key={stat.label}
+                className={`reveal rule flex flex-col-reverse ${i > 0 ? "md:border-l md:pl-8" : ""}`}
+              >
+                <dt className="mt-3 text-sm text-forest-muted">{stat.label}</dt>
+                <dd className="numeral">
+                  {num}
+                  {unit && <small>{unit}</small>}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
       </div>
     </section>
   );

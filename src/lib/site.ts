@@ -27,21 +27,41 @@ export function waLink(message: string) {
   return `https://wa.me/${property.whatsappNumber}?text=${encoded}`;
 }
 
+// Short labels so the pill navigation fits on one line at every width.
 export const nav = [
   { label: "Story", href: "#story" },
-  { label: "The Chalets", href: "#chalets" },
-  { label: "Accommodations", href: "#rooms" },
+  { label: "Chalets", href: "#chalets" },
+  { label: "Stays", href: "#rooms" },
   { label: "Experience", href: "#experience" },
   { label: "Gallery", href: "#gallery" },
   { label: "Location", href: "#location" },
-  { label: "Inquire", href: "#contact" },
+  { label: "Contact", href: "#contact" },
 ];
 
+// `value` is "<number><unit>" — the unit is rendered smaller next to the number.
 export const quickStats = [
-  { value: "5", label: "Curated Room Categories" },
-  { value: "100%", label: "Forest Facing Rooms" },
+  { value: "5", label: "Curated room categories" },
+  { value: "100%", label: "Forest-facing rooms" },
   { value: "15 min", label: "From Mandwa Jetty" },
-  { value: "4.9★", label: "Guest Satisfaction" },
+  { value: "4.9/5", label: "Guest satisfaction" },
+];
+
+// Standalone photography used outside the room / gallery data. Everything on
+// the site is forest or tropical timber architecture so it reads as one place
+// (Alibaug), never alpine or generic hotel stock.
+export const photos = {
+  hero: "https://images.unsplash.com/photo-1748751614735-0a8d3141c281?q=80&w=2400&auto=format&fit=crop",
+  forestPath: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600&auto=format&fit=crop",
+  timberInterior: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1800&auto=format&fit=crop",
+};
+
+// Shared by the hero quick-check and the contact form so both offer the same choices.
+export const guestOptions = [
+  { value: "1 Guest", label: "1 guest · Solo" },
+  { value: "2 Guests", label: "2 guests · Couple" },
+  { value: "3 Guests", label: "3 guests" },
+  { value: "4-5 Guests", label: "4–5 guests · Family" },
+  { value: "6-10 Guests", label: "6–10 guests · Villa party" },
 ];
 
 export type RoomCategory = {
@@ -93,9 +113,9 @@ export const rooms: RoomCategory[] = [
       "Custom brass and teak wood accents",
     ],
     image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=1800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1652103714768-5648e7aac5a8?q=80&w=1800&auto=format&fit=crop",
     secondaryImage:
-      "https://images.unsplash.com/photo-1587061949409-02df41d5e562?q=80&w=1800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1767324672978-f26a05319e63?q=80&w=1800&auto=format&fit=crop",
   },
   {
     slug: "villa-4bhk",
@@ -309,10 +329,11 @@ export const amenitiesList = [
   },
 ];
 
+// Six images, in the order the bento grid expects (see Gallery.tsx).
 export const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=1400&auto=format&fit=crop",
-    caption: "The Signature Forest Chalet nestled in dense greenery",
+    src: "https://images.unsplash.com/photo-1652103714768-5648e7aac5a8?q=80&w=1600&auto=format&fit=crop",
+    caption: "The A-frame Forest Chalet rising from the undergrowth",
     tag: "Chalet",
   },
   {
@@ -321,8 +342,8 @@ export const galleryImages = [
     tag: "Pool",
   },
   {
-    src: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?q=80&w=1400&auto=format&fit=crop",
-    caption: "Interior timber sanctuary of the Forest Chalet",
+    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1400&auto=format&fit=crop",
+    caption: "Timber floors and forest light in the Two Bed Suite",
     tag: "Interior",
   },
   {
@@ -336,9 +357,9 @@ export const galleryImages = [
     tag: "Dining",
   },
   {
-    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1400&auto=format&fit=crop",
-    caption: "Sunlit living spaces in the Two Bed Suite",
-    tag: "Suites",
+    src: "https://images.unsplash.com/photo-1595600984886-c47f639dac1c?q=80&w=1600&auto=format&fit=crop",
+    caption: "Stilted timber cabins glowing at dusk",
+    tag: "Chalet",
   },
 ];
 

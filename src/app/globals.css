@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
+/* -----------------------------------------------------------------------
+   Saya Forest Resort — design tokens
+   One place for colour, type, radius and elevation so every section reads
+   as part of the same system.
+   ----------------------------------------------------------------------- */
+
 :root {
   --forest-bg: #faf9f5;
+  --forest-sheet: #ecebe3;
   --forest-surface: #ffffff;
   --forest-card: #f5f3ec;
   --forest-elevated: #efece3;
@@ -12,15 +19,19 @@
   --forest-border: #e6e0d4;
   --forest-border-light: #f0ede6;
   --forest-gold: #c29d59;
+  --forest-gold-light: #d8b87a;
   --forest-gold-deep: #a5803d;
+  /* Darker gold for small text on light surfaces (AA contrast on cream) */
+  --forest-gold-ink: #7d5c1f;
   --forest-gold-soft: #f4ede1;
   --forest-text: #131b16;
-  --forest-muted: #57645c;
-  --forest-light: #8a968f;
+  --forest-muted: #4f5c54;
+  --forest-light: #6c786f;
 }
 
 @theme inline {
   --color-forest-bg: var(--forest-bg);
+  --color-forest-sheet: var(--forest-sheet);
   --color-forest-surface: var(--forest-surface);
   --color-forest-card: var(--forest-card);
   --color-forest-elevated: var(--forest-elevated);
@@ -31,64 +42,535 @@
   --color-forest-border: var(--forest-border);
   --color-forest-border-light: var(--forest-border-light);
   --color-forest-gold: var(--forest-gold);
+  --color-forest-gold-light: var(--forest-gold-light);
   --color-forest-gold-deep: var(--forest-gold-deep);
+  --color-forest-gold-ink: var(--forest-gold-ink);
   --color-forest-gold-soft: var(--forest-gold-soft);
   --color-forest-text: var(--forest-text);
   --color-forest-muted: var(--forest-muted);
   --color-forest-light: var(--forest-light);
 
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
+  /* next/font injects --font-jakarta and --font-cormorant on <html> */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
 }
 
-body {
-  background-color: var(--forest-bg);
-  color: var(--forest-text);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
+/* Radius + elevation scale: three radii (plus pills), two shadows. */
+@theme static {
+  --radius-control: 0.875rem;
+  --radius-card: 1.5rem;
+  --radius-frame: 2.25rem;
+
+  --shadow-soft: 0 1px 2px rgb(14 29 21 / 0.04), 0 8px 24px -10px rgb(14 29 21 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(14 29 21 / 0.05), 0 28px 56px -20px rgb(14 29 21 / 0.28);
 }
 
-/* Editorial Typography */
-.font-display {
-  font-family: var(--font-display), serif;
+/* -----------------------------------------------------------------------
+   Base
+   ----------------------------------------------------------------------- */
+
+@layer base {
+  body {
+    background-color: var(--forest-bg);
+    color: var(--forest-text);
+    overflow-x: clip;
+  }
+
+  /* Anchored sections clear the fixed header */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--forest-gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
-.italic-serif {
-  font-family: var(--font-display), serif;
-  font-style: italic;
-  font-weight: 400;
+/* -----------------------------------------------------------------------
+   Layout + typography primitives
+   ----------------------------------------------------------------------- */
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 3rem;
+    }
+  }
+
+  .section {
+    position: relative;
+    overflow: hidden;
+    padding-block: 5.5rem;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 7.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .section {
+      padding-block: 9rem;
+    }
+  }
+
+  /* Small uppercase label with a gold dot — the only "eyebrow" style */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--forest-gold-ink);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--forest-gold);
+  }
+  .on-dark .eyebrow {
+    color: var(--forest-gold);
+  }
+
+  /* Section + card headings: tight grotesk with an italic serif accent */
+  .h-section {
+    @apply font-display font-medium;
+    color: var(--forest-dark);
+    font-size: clamp(2.5rem, 5.2vw + 0.5rem, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    word-spacing: 0.06em;
+    text-wrap: balance;
+  }
+  .h-title {
+    @apply font-display font-medium;
+    color: var(--forest-dark);
+    font-size: clamp(2rem, 2.2vw + 1.1rem, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  .h-card {
+    @apply font-display font-medium;
+    color: var(--forest-dark);
+    font-size: clamp(1.5rem, 1.1vw + 1.1rem, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+  .h-sub {
+    @apply font-display font-medium;
+    color: var(--forest-dark);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .on-dark .h-section,
+  .on-dark .h-title,
+  .on-dark .h-card,
+  .on-dark .h-sub {
+    color: #fff;
+  }
+
+  .italic-serif {
+    @apply font-serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    /* Cormorant has a small x-height: scale up so it matches the sans */
+    font-size: 1.1em;
+    line-height: 0.9;
+    color: var(--accent, var(--forest-moss));
+  }
+  .on-dark {
+    --accent: var(--forest-gold);
+  }
+
+  .lead {
+    font-size: clamp(1rem, 0.3vw + 0.95rem, 1.125rem);
+    line-height: 1.7;
+    color: var(--forest-muted);
+  }
+  .body-sm {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--forest-muted);
+  }
+  .on-dark .lead,
+  .on-dark .body-sm {
+    color: rgb(255 255 255 / 0.74);
+  }
+
+  /* Hairline colour that flips on dark sections (pair with a border-* side) */
+  .rule {
+    border-color: var(--forest-border);
+  }
+  .on-dark .rule {
+    border-color: rgb(255 255 255 / 0.14);
+  }
+
+  /* Tiny uppercase metadata label (spec keys, captions) */
+  .label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--forest-light);
+  }
+  .on-dark .label {
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  /* Big stat numerals */
+  .numeral {
+    @apply font-display font-medium;
+    font-size: clamp(3rem, 5.6vw, 5.25rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: var(--forest-dark);
+    font-variant-numeric: tabular-nums;
+  }
+  .numeral small {
+    font-size: 0.42em;
+    letter-spacing: -0.02em;
+    margin-left: 0.15em;
+    color: var(--forest-light);
+  }
+
+  /* -------------------------------------------------------------------
+     Buttons — sentence case, one height, four flavours
+     ------------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding-inline: 1.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .btn svg {
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+  .btn:hover svg.arrow-up-right {
+    transform: translate(2px, -2px);
+  }
+  .btn:hover svg.arrow-down-right {
+    transform: translate(2px, 2px);
+  }
+  .btn-sm {
+    height: 2.5rem;
+    padding-inline: 1.25rem;
+    font-size: 0.8125rem;
+  }
+  .btn-block {
+    width: 100%;
+  }
+  .btn-primary {
+    background: var(--forest-green);
+    color: var(--forest-bg);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-primary:hover {
+    background: var(--forest-dark);
+  }
+  .btn-gold {
+    background: var(--forest-gold);
+    color: var(--forest-dark);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-gold:hover {
+    background: var(--forest-gold-light);
+  }
+  .btn-outline {
+    border-color: var(--forest-dark);
+    color: var(--forest-dark);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--forest-dark);
+    color: #fff;
+  }
+  .btn-outline-light {
+    border-color: rgb(255 255 255 / 0.32);
+    color: #fff;
+    background: transparent;
+  }
+  .btn-outline-light:hover {
+    border-color: rgb(255 255 255 / 0.6);
+    background: rgb(255 255 255 / 0.1);
+  }
+  .btn-glass {
+    background: rgb(255 255 255 / 0.82);
+    color: var(--forest-dark);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .btn-glass:hover {
+    background: #fff;
+  }
+
+  /* Text link with arrow */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--forest-moss);
+    transition: color 0.2s ease;
+  }
+  .link-arrow:hover {
+    color: var(--forest-dark);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Filter / tab pills */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 2.25rem;
+    padding-inline: 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--forest-border);
+    background: #fff;
+    color: var(--forest-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .chip:hover {
+    border-color: var(--forest-dark);
+    color: var(--forest-dark);
+  }
+  .chip[aria-pressed="true"] {
+    background: var(--forest-dark);
+    border-color: var(--forest-dark);
+    color: #fff;
+  }
+
+  /* Tag shown on top of photography */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Surfaces */
+  .card {
+    background: #fff;
+    border: 1px solid var(--forest-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Form controls */
+  .field-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--forest-dark);
+  }
+  .field {
+    width: 100%;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--forest-border);
+    background-color: var(--forest-bg);
+    padding: 0.8rem 1rem;
+    font-size: 0.9375rem;
+    color: var(--forest-dark);
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .field::placeholder {
+    color: var(--forest-light);
+  }
+  .field:focus {
+    border-color: var(--forest-moss);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgb(43 77 58 / 0.1);
+  }
+  select.field {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234f5c54' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+  }
+
+  /* Frosted surfaces */
+  .glass-nav {
+    background: rgb(250 249 245 / 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .glass-dark {
+    background: rgb(14 29 21 / 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* Soft film grain, as in the reference's textured surfaces */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Hero wordmark. --k is the glyph run's width in em (measured), so the
+     word spans the sheet at any viewport. --chrome is page margin + padding. */
+  .wordmark {
+    --chrome: 4.5rem;
+    --k: 2.05;
+    display: block;
+    /* content width = viewport minus chrome, capped at the 74rem container */
+    font-size: calc(min(100vw - var(--chrome), 74rem) / var(--k));
+    line-height: 0.8;
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    color: var(--forest-dark);
+    margin-left: -0.05em;
+    user-select: none;
+  }
+  @media (min-width: 768px) {
+    .wordmark {
+      --chrome: 8.5rem;
+    }
+  }
+  /* In the footer there is no sheet margin, only the container padding */
+  .wordmark-footer {
+    --chrome: 3rem;
+    color: rgb(255 255 255 / 0.07);
+    /* line-height is tight, so reserve room for the "y" descender (the
+       wrapper clips overflow) */
+    padding-bottom: 0.22em;
+  }
+  @media (min-width: 768px) {
+    .wordmark-footer {
+      --chrome: 6rem;
+    }
+  }
+
+  /* Photo top edge melts into the sheet like forest mist */
+  .mist-top {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgb(0 0 0 / 0.1) 8%,
+      rgb(0 0 0 / 0.38) 20%,
+      rgb(0 0 0 / 0.78) 36%,
+      #000 52%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgb(0 0 0 / 0.1) 8%,
+      rgb(0 0 0 / 0.38) 20%,
+      rgb(0 0 0 / 0.78) 36%,
+      #000 52%
+    );
+  }
+
+  /* Map embed picks up the palette instead of default Google colours */
+  .map-tint {
+    filter: grayscale(0.55) sepia(0.18) saturate(0.85) contrast(0.96);
+  }
+
+  /* Thin scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--forest-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d6cfbf;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b8b09f;
+  }
 }
 
-/* Subtle luxury scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: var(--forest-bg);
-}
-::-webkit-scrollbar-thumb {
-  background: #d6cfbf;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #b8b09f;
-}
-
-/* Glassmorphism effects */
-.glass-nav {
-  background: rgba(250, 249, 245, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.glass-badge {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.glass-dark {
-  background: rgba(14, 29, 21, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+/* Scroll reveal — progressive enhancement. Browsers without scroll-driven
+   animations simply render everything in place. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+    @keyframes reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
 }

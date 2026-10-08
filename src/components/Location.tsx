@@ -1,108 +1,94 @@
-import { MapPin, ArrowUpRight, Compass, Ship, Car, Clock } from "lucide-react";
+import { ArrowUpRight, MapPin, Ship } from "lucide-react";
 import { nearbyPlaces, property, waLink } from "@/lib/site";
+import SectionHeader from "./SectionHeader";
 
 export default function Location() {
   return (
-    <section id="location" className="relative py-28 md:py-36 lg:py-40 bg-white border-t border-forest-border/70 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-12 border-b border-forest-border/80">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="h-px w-8 bg-forest-gold" />
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-forest-moss">
-                Location &amp; Connectivity
-              </p>
-            </div>
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-light text-forest-dark leading-[1.05]">
-              Minutes from the jetty, <br className="hidden sm:inline" />
-              <span className="italic-serif text-forest-moss font-normal">
-                worlds away in spirit
-              </span>
-            </h2>
-          </div>
+    <section id="location" className="section bg-white">
+      <div className="container-page">
+        <SectionHeader
+          eyebrow="Location & connectivity"
+          title={
+            <>
+              Minutes from the jetty, <em className="italic-serif">worlds away in spirit</em>
+            </>
+          }
+        >
+          Set in pristine forest near Kihim and Chondi in Alibaug, and easily reached by direct
+          speedboats and car ferries from Mumbai.
+        </SectionHeader>
 
-          <div className="max-w-md">
-            <p className="text-forest-muted text-sm sm:text-base leading-relaxed font-light">
-              Situated in pristine forest surroundings near Kihim and Chondi in Alibaug.
-              Easily accessible via direct speedboats and car ferries from Mumbai.
-            </p>
-          </div>
-        </div>
-
-        {/* Location Content Grid */}
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          {/* Map Frame */}
-          <div className="lg:col-span-7 overflow-hidden rounded-[2rem] border border-forest-border bg-forest-card shadow-sm">
-            <div className="p-4 sm:p-5 border-b border-forest-border flex items-center justify-between bg-forest-bg">
-              <div className="flex items-center gap-2 text-xs text-forest-dark font-medium">
-                <MapPin size={15} className="text-forest-moss" />
+        <div className="mt-16 grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Map */}
+          <div className="reveal card overflow-hidden lg:col-span-7">
+            <div className="rule flex flex-col gap-2 border-b bg-forest-bg p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+              <p className="flex items-center gap-2 text-sm font-medium text-forest-dark">
+                <MapPin size={16} className="shrink-0 text-forest-moss" aria-hidden="true" />
                 <span>{property.address}</span>
-              </div>
+              </p>
               <a
                 href={property.mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-forest-moss hover:underline"
+                className="link-arrow shrink-0"
               >
-                <span>Google Maps</span>
-                <ArrowUpRight size={13} />
+                <span>Open in Google Maps</span>
+                <ArrowUpRight size={14} />
               </a>
             </div>
 
             <iframe
               src={property.mapsEmbedSrc}
-              className="h-[380px] sm:h-[460px] w-full"
+              className="map-tint h-[380px] w-full sm:h-[460px]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Saya Forest Resort Alibaug Location Map"
+              title="Saya Forest Resort, Alibaug — location map"
             />
           </div>
 
-          {/* Travel Distances & Concierge Assistance */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl border border-forest-border bg-forest-bg p-6 sm:p-8">
-              <div className="flex items-center justify-between pb-4 border-b border-forest-border">
-                <h3 className="font-display text-2xl font-light text-forest-dark">
-                  Nearby Landmarks
-                </h3>
-                <span className="text-[11px] uppercase tracking-wider text-forest-muted">
-                  Drive Times
-                </span>
+          {/* Distances + ferry help */}
+          <div className="space-y-6 lg:col-span-5">
+            <div className="reveal rounded-card border border-forest-border bg-forest-bg p-6 sm:p-8">
+              <div className="rule flex items-baseline justify-between border-b pb-4">
+                <h3 className="h-card">Nearby landmarks</h3>
+                <p className="label">Drive times</p>
               </div>
 
-              <div className="mt-4 divide-y divide-forest-border/60">
+              <ul className="divide-y divide-forest-border/70">
                 {nearbyPlaces.map((place) => (
-                  <div key={place.name} className="py-3.5 flex items-start justify-between gap-4">
+                  <li key={place.name} className="flex items-start justify-between gap-4 py-4">
                     <div>
-                      <p className="text-sm font-medium text-forest-dark">{place.name}</p>
-                      <p className="text-xs text-forest-muted font-light mt-0.5">{place.detail}</p>
+                      <p className="text-sm font-semibold text-forest-dark">{place.name}</p>
+                      <p className="body-sm mt-0.5">{place.detail}</p>
                     </div>
-                    <span className="shrink-0 rounded-full bg-forest-card px-2.5 py-1 text-xs font-semibold text-forest-moss border border-forest-border">
+                    <span className="shrink-0 rounded-full border border-forest-border bg-white px-3 py-1 text-xs font-semibold tabular-nums text-forest-moss">
                       {place.distance}
                     </span>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            {/* Mandwa Ferry Assistance Box */}
-            <div className="rounded-2xl border border-forest-gold/50 bg-forest-gold-soft/40 p-6">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-forest-gold-deep">
-                <Ship size={15} />
-                <span>Arriving from Mumbai?</span>
-              </div>
-              <p className="mt-2 text-sm text-forest-dark font-light leading-relaxed">
-                Take the 20-minute speedboat from Gateway of India or the M2M Ro-Pax car ferry from Bhaucha Dhakka to Mandwa Jetty. Our concierge can arrange direct transfers to the resort.
+            <div className="reveal rounded-card border border-forest-gold/50 bg-forest-gold-soft/60 p-6 sm:p-8">
+              <p className="flex items-center gap-2 text-[0.6875rem] font-semibold uppercase tracking-[0.2em] text-forest-gold-ink">
+                <Ship size={16} aria-hidden="true" />
+                Arriving from Mumbai?
+              </p>
+              <p className="body-sm mt-3 text-forest-dark">
+                Take the 20-minute speedboat from Gateway of India or the M2M Ro-Pax car ferry from
+                Bhaucha Dhakka to Mandwa Jetty. Our concierge can arrange direct transfers to the
+                resort.
               </p>
               <a
-                href={waLink("Hi! I am traveling to Saya Forest Resort from Mumbai. Could you assist with speedboat bookings and Mandwa Jetty pickup?")}
+                href={waLink(
+                  "Hi! I am traveling to Saya Forest Resort from Mumbai. Could you assist with speedboat bookings and Mandwa Jetty pickup?",
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-forest-dark hover:text-forest-moss hover:underline"
+                className="link-arrow mt-4"
               >
-                <span>Request Ferry Transfer Assistance</span>
-                <ArrowUpRight size={13} />
+                <span>Request ferry transfer assistance</span>
+                <ArrowUpRight size={14} />
               </a>
             </div>
           </div>
