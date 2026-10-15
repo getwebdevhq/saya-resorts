@@ -16,9 +16,7 @@ export default function Footer() {
                 Forest Resort
               </span>
             </div>
-            <p className="label">
-              Alibaug, Maharashtra · {property.formerName}
-            </p>
+            <p className="label">{property.location}</p>
             <p className="body-sm max-w-sm">{property.taglineLong}</p>
             <a
               href={waLink("Hi! I would like to reserve a stay at Saya Forest Resort Alibaug.")}
@@ -82,7 +80,6 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {property.name}, Alibaug. All rights reserved.
           </p>
-          <p className="text-center sm:text-right">{property.formerName}</p>
         </div>
       </div>
     </footer>

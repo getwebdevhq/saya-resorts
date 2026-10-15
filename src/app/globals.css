@@ -243,22 +243,6 @@
     color: rgb(255 255 255 / 0.55);
   }
 
-  /* Big stat numerals */
-  .numeral {
-    @apply font-display font-medium;
-    font-size: clamp(3rem, 5.6vw, 5.25rem);
-    line-height: 1;
-    letter-spacing: -0.045em;
-    color: var(--forest-dark);
-    font-variant-numeric: tabular-nums;
-  }
-  .numeral small {
-    font-size: 0.42em;
-    letter-spacing: -0.02em;
-    margin-left: 0.15em;
-    color: var(--forest-light);
-  }
-
   /* -------------------------------------------------------------------
      Buttons — sentence case, one height, four flavours
      ------------------------------------------------------------------- */

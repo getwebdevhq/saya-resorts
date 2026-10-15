@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { ArrowUpRight, Eye } from "lucide-react";
-import { photos, quickStats, waLink } from "@/lib/site";
-import SectionHeader from "./SectionHeader";
+import { ArrowUpRight } from "lucide-react";
+import { mandwaDriveTime, photos, waLink } from "@/lib/site";
 
 const highlights = [
   {
@@ -13,51 +12,17 @@ const highlights = [
     body: "From couples seeking restorative silence in our Deluxe Rooms, to multi-family celebrations in the 4BHK Villa, and the ultimate forest immersion in the standalone Forest Chalet.",
   },
   {
-    title: "15 minutes from the Mumbai speedboats",
-    body: "Step off the Mandwa ferry from Gateway of India into tranquil forest shadows. Far enough to leave the city’s noise behind; close enough for an effortless weekend pause.",
+    title: `${mandwaDriveTime} from Mandwa Jetty`,
+    body: "Step off the Mandwa ferry from Gateway of India and drive into tranquil forest shadows. Far enough to leave the city’s noise behind; close enough for an effortless weekend pause.",
   },
 ];
-
-/** "15 min" -> ["15", "min"], "100%" -> ["100", "%"], "4.9/5" -> ["4.9", "/5"] */
-function splitStat(value: string): [string, string] {
-  const match = value.match(/^([\d.,]+)\s*(.*)$/);
-  return match ? [match[1], match[2]] : [value, ""];
-}
 
 export default function Story() {
   return (
     <section id="story" className="section bg-forest-bg">
       <div className="container-page">
-        <SectionHeader
-          eyebrow="The transformation story"
-          title={
-            <>
-              Reborn from the roots of{" "}
-              <em className="italic-serif">Giriraj Garden Resort</em>
-            </>
-          }
-          aside={
-            <div className="max-w-md space-y-6">
-              <p className="lead">
-                Acquired and thoughtfully reimagined by its new owners, the historic Giriraj
-                Garden Resort has been transformed into{" "}
-                <strong className="font-semibold text-forest-dark">
-                  Saya Forest Resort, Alibaug
-                </strong>
-                . We stepped away from generic landscaping to embrace wild botanical tranquility.
-              </p>
-              <p className="flex items-center gap-3 text-sm font-medium text-forest-dark">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-forest-border bg-forest-card text-forest-moss">
-                  <Eye size={16} aria-hidden="true" />
-                </span>
-                Every single room frames uninterrupted forest vistas.
-              </p>
-            </div>
-          }
-        />
-
         {/* Image + editorial highlights */}
-        <div className="mt-16 grid grid-cols-1 items-center gap-12 md:mt-24 lg:grid-cols-12 lg:gap-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="reveal relative lg:col-span-7">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-frame shadow-lift">
               <Image
@@ -112,7 +77,7 @@ export default function Story() {
 
             <a
               href={waLink(
-                "Hi! I would like to learn more about the revamp of Saya Forest Resort and enquire for an upcoming stay.",
+                "Hi! I would like to learn more about Saya Forest Resort and enquire for an upcoming stay.",
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -123,26 +88,6 @@ export default function Story() {
             </a>
           </div>
         </div>
-
-        {/* Numbers */}
-        <dl className="mt-24 grid grid-cols-2 gap-y-10 md:mt-32 md:grid-cols-4">
-          {quickStats.map((stat, i) => {
-            const [num, unit] = splitStat(stat.value);
-            return (
-              // Term first in the DOM, number shown above it
-              <div
-                key={stat.label}
-                className={`reveal rule flex flex-col-reverse ${i > 0 ? "md:border-l md:pl-8" : ""}`}
-              >
-                <dt className="mt-3 text-sm text-forest-muted">{stat.label}</dt>
-                <dd className="numeral">
-                  {num}
-                  {unit && <small>{unit}</small>}
-                </dd>
-              </div>
-            );
-          })}
-        </dl>
       </div>
     </section>
   );

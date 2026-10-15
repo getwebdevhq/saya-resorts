@@ -1,16 +1,14 @@
 // -----------------------------------------------------------------------
 // Single source of truth for SAYA Forest Resort, Alibaug
-// (Formerly Giriraj Garden Resort)
 // -----------------------------------------------------------------------
 
 export const property = {
   name: "Saya Forest Resort",
   subtitle: "Alibaug",
   fullName: "Saya Forest Resort, Alibaug",
-  formerName: "Formerly Giriraj Garden Resort",
   tagline: "Where the forest canopy cradles quiet luxury.",
   taglineLong:
-    "A tranquil transformation of Alibaug's beloved Giriraj Garden Resort into a serene forest sanctuary. Every room opens up to living forest vistas, crowned by our signature Forest Chalets.",
+    "A serene forest sanctuary in Alibaug. Every room opens up to living forest vistas, crowned by our signature Forest Chalets.",
   location: "Alibaug, Maharashtra",
   address: "Saya Forest Resort, Chondi-Kihim Road, Alibaug, Maharashtra 402201",
   phone: "+91 98765 43210",
@@ -38,13 +36,8 @@ export const nav = [
   { label: "Contact", href: "#contact" },
 ];
 
-// `value` is "<number><unit>" — the unit is rendered smaller next to the number.
-export const quickStats = [
-  { value: "5", label: "Curated room categories" },
-  { value: "100%", label: "Forest-facing rooms" },
-  { value: "15 min", label: "From Mandwa Jetty" },
-  { value: "4.9/5", label: "Guest satisfaction" },
-];
+// Drive time from Mandwa Jetty — keep every mention of it in sync with this.
+export const mandwaDriveTime = "35–40 mins";
 
 // Standalone photography used outside the room / gallery data. Everything on
 // the site is forest or tropical timber architecture so it reads as one place
@@ -366,7 +359,7 @@ export const galleryImages = [
 export const nearbyPlaces = [
   {
     name: "Mandwa Jetty",
-    distance: "15 mins",
+    distance: mandwaDriveTime,
     detail: "Speedboats & M2M Ferries from Gateway of India, Mumbai",
   },
   {

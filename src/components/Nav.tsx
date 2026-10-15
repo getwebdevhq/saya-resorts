@@ -126,7 +126,7 @@ export default function Nav() {
           className="absolute inset-x-0 top-full border-b border-forest-border bg-forest-bg shadow-lift lg:hidden"
         >
           <div className="container-page pb-8 pt-4">
-            <p className="label pb-3">{property.formerName}</p>
+            <p className="label pb-3">{property.location}</p>
             <nav aria-label="Mobile" className="flex flex-col">
               {nav.map((item) => (
                 <a

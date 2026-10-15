@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import { ArrowDownRight, ArrowUpRight, BedDouble, CalendarDays, Users } from "lucide-react";
-import { guestOptions, photos, property, rooms, waLink } from "@/lib/site";
+import { guestOptions, mandwaDriveTime, photos, property, rooms, waLink } from "@/lib/site";
 
 export default function Hero() {
   const [selectedCategory, setSelectedCategory] = useState("forest-chalet");
@@ -30,9 +30,9 @@ Please share current tariff and photos.`;
           {/* Three tiny captions, as in the editorial reference */}
           <div className="grid grid-cols-2 gap-4 text-xs leading-snug text-forest-dark sm:grid-cols-3 md:text-sm">
             <p>
-              Formerly Giriraj
+              Forest chalets,
               <br />
-              Garden Resort
+              villas &amp; suites
             </p>
             <p className="hidden text-center sm:block">
               Every room opens
@@ -80,7 +80,7 @@ Please share current tariff and photos.`;
             <p className="text-xs font-medium text-white/90 md:text-right md:text-sm">
               {property.location}
               <span className="mx-2 text-white/40">·</span>
-              15 min from Mandwa Jetty
+              {mandwaDriveTime} from Mandwa Jetty
             </p>
           </div>
         </div>

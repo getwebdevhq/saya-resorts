@@ -10,7 +10,7 @@ export default function Location() {
           eyebrow="Location & connectivity"
           title={
             <>
-              Minutes from the jetty, <em className="italic-serif">worlds away in spirit</em>
+              An easy drive from the jetty, <em className="italic-serif">worlds away in spirit</em>
             </>
           }
         >

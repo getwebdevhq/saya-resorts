@@ -21,10 +21,9 @@ const serif = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Saya Forest Resort, Alibaug — Luxury Forest Sanctuary & Chalets",
   description:
-    "Saya Forest Resort (formerly Giriraj Garden Resort) is a serene luxury forest retreat in Alibaug. Featuring signature Forest Chalets, private 4BHK villas, and suites immersed in ancient trees. Check live availability on WhatsApp.",
+    "Saya Forest Resort is a serene luxury forest retreat in Alibaug. Featuring signature Forest Chalets, private 4BHK villas, and suites immersed in ancient trees. Check live availability on WhatsApp.",
   keywords: [
     "Saya Forest Resort Alibaug",
-    "Giriraj Garden Resort Alibaug revamp",
     "Forest Chalet Alibaug",
     "luxury resort Alibaug",
     "forest resort near Mumbai",
